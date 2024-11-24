@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+results/
+wandb/
+drstrategy/exp_local/
+drstrategy/pretrained_models/
+datasets/
+drstrategy/exp_local_tmp/
+drstrategy/offline_models/
+.bash_history
+.config/pudb
+.ipython/
+.local
+.nv
+.python_history

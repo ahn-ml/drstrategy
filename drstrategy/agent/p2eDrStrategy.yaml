@@ -1,0 +1,7 @@
+# @package agent
+defaults:
+  - drstrategy
+
+_target_: agent.plan2explore.Plan2ExploreDrStrategy
+name: plan2explore_drstrategy
+reward_norm: {momentum: 1.0, scale: 1.0, eps: 1e-8}

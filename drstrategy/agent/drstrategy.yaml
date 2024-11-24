@@ -1,0 +1,46 @@
+# @package agent
+_target_: agent.drstrategy.DrStrategyAgent
+name: drstrategy
+cfg: ???
+obs_space: ???
+act_spec: ???
+grad_heads: [decoder,emb_decoder]
+
+# Explorer
+reward_norm: {momentum: 0.95, scale: 1.0, eps: 1e-8}
+actor_ent: 0
+
+# Landmark-level Explorer
+use_skilled_explore: False
+skilled_explore: {go_landmark: False, max_step_for_landmark_executor: 100, threshold_for_landmark_executor: 0.07}
+
+use_landmark2landmark: False
+
+# Achiever
+use_achieve: False
+td_num_positives : 256
+td_neg_sampling_factor : 0.1
+
+# Landmark-level Achiever
+use_skilled_achieve: False
+skilled_achieve: {go_landmark: False, max_step_for_landmark_executor: 100, threshold_for_landmark_executor: 0.05}
+
+# Landmarks
+landmark_dim: 64
+landmark_reward_norm: {momentum: 1.00, scale: 1.0, eps: 1e-8} 
+landmark_actor_ent: 0
+code_dim: 16
+code_resampling: True
+resample_every: 200
+use_deter_for_landmark_executor: False
+
+# Adaptation
+num_init_frames: 4000 
+update_landmark_every_step: 125 
+freeze_landmarks: False
+
+# PBE
+knn_rms: false
+knn_k: 30
+knn_avg: true
+knn_clip: 0.0001

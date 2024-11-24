@@ -1,0 +1,63 @@
+defaults:
+  - configs/default
+  - agent: drstrategy
+  - configs: ${configs}
+  - override hydra/launcher: submitit_local
+
+# task settings
+task: none
+domain: walker # primal task will be infered in runtime
+# train settings
+num_train_frames: 2000010
+num_seed_frames: 1000
+# eval
+eval_every_frames: 100000000 # not necessary during pretrain
+num_eval_episodes: 1
+# snapshot
+snapshots: [100000, 500000, 1000000, 1500000, 2000000] 
+snapshot_dir: ../../../pretrained_models/${obs_type}/${domain}/${agent.name}/${seed}
+# replay buffer
+replay_buffer_size: 1000000
+# misc
+seed: 1
+device: cuda
+use_tb: true
+use_wandb: true
+
+# experiment
+project_name: drstrategy_icml24
+entity_name: iu_mas
+wandb_postfix: ""
+save_code: True
+tags: ''
+group: drstrategy # drstrategy, lexa, gc_director, lexa_explore_lbs, lexa_explore_p2e,  
+resume_dir: none
+
+
+# log settings
+log_every_frames: 1000
+recon_every_frames: 10000 # edit for debug
+save_model_every_frames: 25000
+
+run_achiever: False
+achiever_sample: random # random, traj_random, traj
+non_episodic: False
+
+reset_behavior_every_frames: 1000
+
+histogram_scale: 1
+
+hydra:
+  run:
+    dir: ./exp_local/${now:%Y.%m.%d}/${now:%H%M%S}_${agent.name}
+  sweep:
+    dir: ./exp_sweep/${now:%Y.%m.%d}/${now:%H%M}_${agent.name}_${experiment}
+    subdir: ${hydra.job.num}
+  launcher:
+    timeout_min: 4300
+    cpus_per_task: 10
+    gpus_per_node: 1
+    tasks_per_node: 1
+    mem_gb: 160
+    nodes: 1
+    submitit_folder: ./exp_sweep/${now:%Y.%m.%d}/${now:%H%M}_${agent.name}_${experiment}/.slurm
